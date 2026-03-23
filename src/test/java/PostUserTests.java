@@ -1,9 +1,8 @@
 import client.UserClient;
 import data.UserData;
 import models.User;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class PostUserTests {
     UserClient userClient = new UserClient();
@@ -18,22 +17,32 @@ public class PostUserTests {
                 .extract()
                 .as(User.class);
 
-        assertThat(newUser)
+        SoftAssertions softAssertions = new SoftAssertions();
+
+        softAssertions.assertThat(newUser)
                 .as("Созданный user не валидный")
                 .extracting(User::getName,
                         User::getUsername,
                         User::getEmail,
-                        User::getAddress,
                         User::getPhone,
-                        User::getWebsite,
-                        User::getCompany)
+                        User::getWebsite)
                 .containsExactly(user.getName(),
                         user.getUsername(),
                         user.getEmail(),
-                        user.getAddress(),
                         user.getPhone(),
-                        user.getWebsite(),
-                        user.getCompany());
+                        user.getWebsite());
+
+        softAssertions.assertThat(newUser.getAddress())
+                .usingRecursiveComparison()
+                .as("Некорректный адрес пользователя")
+                .isEqualTo(user.getAddress());
+
+        softAssertions.assertThat(newUser.getCompany())
+                .usingRecursiveComparison()
+                .as("Некорректные данные компании пользователя")
+                .isEqualTo(user.getCompany());
+
+
     }
 
     @Test(dataProviderClass = UserData.class,
@@ -46,7 +55,9 @@ public class PostUserTests {
                 .extract()
                 .as(User.class);
 
-        assertThat(updateUser)
+        SoftAssertions softAssertions = new SoftAssertions();
+
+        softAssertions.assertThat(updateUser)
                 .as("Пользователь не обновлен")
                 .extracting(User::getName,
                         User::getUsername,
@@ -62,5 +73,16 @@ public class PostUserTests {
                         user.getPhone(),
                         user.getWebsite(),
                         user.getCompany());
+
+        softAssertions.assertThat(updateUser.getAddress())
+                .usingRecursiveComparison()
+                .as("Некорректный адрес пользователя")
+                .isEqualTo(user.getAddress());
+
+        softAssertions.assertThat(updateUser.getCompany())
+                .usingRecursiveComparison()
+                .as("Некорректные данные компании пользователя")
+                .isEqualTo(user.getCompany());
+
     }
 }

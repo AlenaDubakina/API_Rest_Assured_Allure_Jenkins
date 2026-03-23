@@ -59,29 +59,20 @@ public class GetUserTests {
 
         SoftAssertions softAssertions = new SoftAssertions();
 
-        softAssertions.assertThat(user1.getId())
-                .as("Некорректное поле id")
-                .isEqualTo(1);
-
-        softAssertions.assertThat(user1.getName())
-                .as("Некорректное поле name")
-                .isEqualTo("Leanne Graham");
-
-        softAssertions.assertThat(user1.getUsername())
-                .as("Некорректное поле username")
-                .isEqualTo("Bret");
-
-        softAssertions.assertThat(user1.getEmail())
-                .as("Некорректное поле email")
-                .isEqualTo("Sincere@april.biz");
-
-        softAssertions.assertThat(user1.getPhone())
-                .as("Некорректное поле phone")
-                .isEqualTo("1-770-736-8031 x56442");
-
-        softAssertions.assertThat(user1.getWebsite())
-                .as("Некорректное поле website")
-                .isEqualTo("hildegard.org");
+        softAssertions.assertThat(user1)
+                .as("Проверка основных полей пользователя")
+                .extracting(User::getId,
+                        User::getName,
+                        User::getUsername,
+                        User::getEmail,
+                        User::getPhone,
+                        User::getWebsite)
+                .containsExactly(1,
+                        "Leanne Graham",
+                        "Bret",
+                        "Sincere@april.biz",
+                        "1-770-736-8031 x56442",
+                        "hildegard.org");
 
         softAssertions.assertThat(user1.getAddress().getCity())
                 .as("Некорректное поле address")
