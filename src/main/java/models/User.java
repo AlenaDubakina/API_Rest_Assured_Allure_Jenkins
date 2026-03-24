@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class User {
-    private int id;
+    private Integer id;
     private String name;
     private String username;
     private String email;

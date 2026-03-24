@@ -1,14 +1,24 @@
 import client.UserClient;
 import data.UserData;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import models.User;
-import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Test;
 
+import static assertions.UserAssertions.assertUserEqualsWithoutField;
+import static assertions.UserAssertions.assertUserIdIsPositive;
+
+@Epic("API тестирование")
+@Feature("Пользователи")
+@Story("Создание пользователя")
 public class PostUserTests {
     UserClient userClient = new UserClient();
 
     @Test(dataProviderClass = UserData.class,
             dataProvider = "positiveCreate")
+    @Description("Создание нового пользователя позитивный тест")
     public void postUserTest(User user) {
         User newUser = userClient.postRequest("/users", user)
                 .then()
@@ -17,72 +27,7 @@ public class PostUserTests {
                 .extract()
                 .as(User.class);
 
-        SoftAssertions softAssertions = new SoftAssertions();
-
-        softAssertions.assertThat(newUser)
-                .as("Созданный user не валидный")
-                .extracting(User::getName,
-                        User::getUsername,
-                        User::getEmail,
-                        User::getPhone,
-                        User::getWebsite)
-                .containsExactly(user.getName(),
-                        user.getUsername(),
-                        user.getEmail(),
-                        user.getPhone(),
-                        user.getWebsite());
-
-        softAssertions.assertThat(newUser.getAddress())
-                .usingRecursiveComparison()
-                .as("Некорректный адрес пользователя")
-                .isEqualTo(user.getAddress());
-
-        softAssertions.assertThat(newUser.getCompany())
-                .usingRecursiveComparison()
-                .as("Некорректные данные компании пользователя")
-                .isEqualTo(user.getCompany());
-
-
-    }
-
-    @Test(dataProviderClass = UserData.class,
-            dataProvider = "positiveCreate")
-    public void putUserTest(User user) {
-        User updateUser = userClient.putRequest("/users/1", user)
-                .then()
-                .log().ifValidationFails()
-                .statusCode(200)
-                .extract()
-                .as(User.class);
-
-        SoftAssertions softAssertions = new SoftAssertions();
-
-        softAssertions.assertThat(updateUser)
-                .as("Пользователь не обновлен")
-                .extracting(User::getName,
-                        User::getUsername,
-                        User::getEmail,
-                        User::getAddress,
-                        User::getPhone,
-                        User::getWebsite,
-                        User::getCompany)
-                .containsExactly(user.getName(),
-                        user.getUsername(),
-                        user.getEmail(),
-                        user.getAddress(),
-                        user.getPhone(),
-                        user.getWebsite(),
-                        user.getCompany());
-
-        softAssertions.assertThat(updateUser.getAddress())
-                .usingRecursiveComparison()
-                .as("Некорректный адрес пользователя")
-                .isEqualTo(user.getAddress());
-
-        softAssertions.assertThat(updateUser.getCompany())
-                .usingRecursiveComparison()
-                .as("Некорректные данные компании пользователя")
-                .isEqualTo(user.getCompany());
-
+        assertUserEqualsWithoutField(newUser, user, "id");
+        assertUserIdIsPositive(newUser);
     }
 }
