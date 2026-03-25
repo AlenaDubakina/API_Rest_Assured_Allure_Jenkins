@@ -37,13 +37,14 @@ pipeline {
         }
 
        success {
-                   echo 'Pipeline succeeded!'
+            echo 'Pipeline succeeded!'
        }
        failure {
-                   echo 'Pipeline failed.'
+            echo 'Pipeline failed.'
        }
-       always {
-                   cleanWs()
+       cleanup {
+            echo 'Cleaning workspace...'
+            cleanWs()
        }
     }
 }
