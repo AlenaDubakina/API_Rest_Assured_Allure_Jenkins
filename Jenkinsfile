@@ -32,17 +32,15 @@ pipeline {
         echo "Allure report generation"
         allure includeProperties: false,
         reportBuildPolicy: 'ALWAYS',
-        results: [[path: 'target/allure-results']
+        results: [[path: 'target/allure-results']]
         echo "Pipeline finished"
         }
 
        success {
                    echo 'Pipeline succeeded!'
-                   notifyTelegram("SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}")
        }
        failure {
                    echo 'Pipeline failed.'
-                   notifyTelegram("FAIlED: ${env.JOB_NAME} #${env.BUILD_NUMBER}")
        }
        always {
                    cleanWs()
