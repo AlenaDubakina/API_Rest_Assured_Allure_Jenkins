@@ -49,7 +49,7 @@ mvn clean test
 # Запустить тесты и открыть Allure отчёт
 mvn clean test
 mvn allure:serve
-
+```
 ## 🔄 CI/CD
 
 Проект интегрирован с Jenkins для автоматического запуска тестов.
@@ -62,7 +62,7 @@ mvn allure:serve
 | **Cron (H 8 * * 1-5)** | Расписание запуска (ежедневно в 8:00 по будням) |
 
 ## 📁 Структура проекта
-
+```
 API_Rest_Assured_Allure_Jenkins/
 ├── src/
 │   ├── main/
