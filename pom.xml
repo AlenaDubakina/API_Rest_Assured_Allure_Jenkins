@@ -44,7 +44,12 @@
             <artifactId>assertj-core</artifactId>
             <version>3.27.7</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.aeonbits.owner</groupId>
+            <artifactId>owner</artifactId>
+            <version>1.0.12</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
