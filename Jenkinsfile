@@ -26,7 +26,7 @@ pipeline {
                     steps {
                         script {
                             writeFile(
-                        file: 'src/test/resources/config/api.properties'
+                        file: 'src/test/resources/config/api.properties',
                         text: """api.base.uri=${BASE_URI}"""
                             )
                         }
