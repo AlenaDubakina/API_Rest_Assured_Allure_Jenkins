@@ -24,10 +24,12 @@ pipeline {
          }
         stage('Generate api.properties') {
                     steps {
-                        sh '''
-                            # Создаем или перезаписываем файл api.properties
-                            echo "api.base.uri=${BASE_URI}" > src/test/resources/config/api.properties
-                        '''
+                        script {
+                            writeFile(
+                        file: 'src/test/resources/config/api.properties'
+                        text: """api.base.uri=${BASE_URI}"""
+                            )
+                        }
                         echo 'Файл src/test/resources/config/api.properties успешно создан.'
                     }
         }
