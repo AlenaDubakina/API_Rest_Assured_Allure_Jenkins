@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+      environment {
+            BASE_URI = 'https://jsonplaceholder.typicode.com'
+        }
+
     triggers {
         cron('H 8 * * 1-5')
     }
@@ -18,6 +22,15 @@ pipeline {
                         git url: 'https://github.com/AlenaDubakina/API_Rest_Assured_Allure_Jenkins', branch: 'main'
                     }
          }
+        stage('Generate api.properties') {
+                    steps {
+                        sh '''
+                            # Создаем или перезаписываем файл api.properties
+                            echo "api.base.uri=${BASE_URI}" > src/test/resources/config/api.properties
+                        '''
+                        echo 'Файл src/test/resources/config/api.properties успешно создан.'
+                    }
+        }
 
          stage('Build & Test') {
             steps {
