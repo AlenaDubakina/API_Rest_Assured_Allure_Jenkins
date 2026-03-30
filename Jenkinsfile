@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+            docker {
+                image 'maven:3.9-eclipse-temurin-17'
+                args '-v /var/run/docker.sock:/var/run/docker.sock'
+            }
+    }
 
       environment {
             BASE_URI = 'https://jsonplaceholder.typicode.com'
@@ -7,11 +12,6 @@ pipeline {
 
     triggers {
         cron('H 8 * * 1-5')
-    }
-
-    tools {
-        maven 'Maven_3'
-        jdk 'JDK_25'
     }
 
     stages {
