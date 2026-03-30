@@ -32,7 +32,7 @@ pipeline {
          stage('Build & Test') {
             steps {
                 echo "Running"
-                sh 'mvn clean test'
+                sh 'docker-compose run --rm api-tests'
             }
          }
     }
