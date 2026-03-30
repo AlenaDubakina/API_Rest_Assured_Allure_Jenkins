@@ -36,8 +36,9 @@ services:
     build: .
     image: my-rest-assured-tests
     volumes:
-      - .:/app                    # Монтируем код
+#      - .:/app                    # Монтируем код
       - ~/.m2:/root/.m2           # Монтируем кэш Maven
+      - ./target/allure-results:/app/target/allure-results
     networks:
       - qa_network
     profiles: ["test"]            # Не запускается автоматически
