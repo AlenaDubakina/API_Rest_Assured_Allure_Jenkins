@@ -32,7 +32,10 @@ pipeline {
          stage('Build & Test') {
             steps {
                 echo "Running"
-                sh 'cd /workspace && docker-compose run --rm api-tests'
+                  // 1. Пересобираем образ тестов, чтобы подхватить созданный api.properties
+                  sh 'docker-compose build api-tests'
+                  // 2. Запускаем контейнер с тестами
+                  sh 'docker-compose run --rm api-tests'
             }
          }
     }
