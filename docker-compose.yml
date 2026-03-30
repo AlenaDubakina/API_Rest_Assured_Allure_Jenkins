@@ -35,10 +35,10 @@ services:
   api-tests:
     build: .
     image: my-rest-assured-tests
+    working_dir: /app
     volumes:
-#      - .:/app                    # Монтируем код
+      - .:/app                    # Монтируем код
       - ~/.m2:/root/.m2           # Монтируем кэш Maven
-      - ./target/allure-results:/app/target/allure-results
     networks:
       - qa_network
     profiles: ["test"]            # Не запускается автоматически

@@ -32,7 +32,7 @@ pipeline {
          stage('Build & Test') {
             steps {
                 echo "Running"
-                sh 'docker-compose run --rm api-tests'
+                sh 'cd /workspace && docker-compose run --rm api-tests'
             }
          }
     }
