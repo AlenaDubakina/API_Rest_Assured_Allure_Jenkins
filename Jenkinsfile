@@ -30,14 +30,20 @@ pipeline {
         }
 
          stage('Build & Test') {
-            steps {
-                echo "Running"
-                  // 1. Пересобираем образ тестов, чтобы подхватить созданный api.properties
-                  sh 'docker-compose build api-tests'
-                  // 2. Запускаем контейнер с тестами
-                  sh 'docker-compose run --rm api-tests'
-            }
+             steps {
+                 echo "Running tests in Docker..."
+                 sh 'docker-compose run --name test-container api-tests'
+             }
+             post {
+                 always {
+                     script {
+                         sh 'docker cp test-container:/app/target/allure-results target/'
+                         sh 'docker rm -f test-container'
+                     }
+                 }
+             }
          }
+
     }
 
     post {
