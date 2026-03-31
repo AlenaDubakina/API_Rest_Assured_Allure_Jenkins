@@ -37,20 +37,16 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                echo "Running tests..."
+       stage('Run Tests') {
+           steps {
+               echo "Running tests..."
+               // Создаем папку в Jenkins, чтобы примонтировать её
+               sh 'mkdir -p target/allure-results'
 
-                sh '''
-                mkdir -p target/allure-results
-
-                docker run --rm \
-                -u $(id -u):$(id -g) \
-                -v $WORKSPACE/target/allure-results:/app/target/allure-results \
-                api-tests
-                '''
-            }
-        }
+               // Запускаем контейнер. Права внутри (777) позволят записать отчет.
+               sh 'docker run --rm -v $WORKSPACE/target/allure-results:/app/target/allure-results api-tests'
+           }
+       }
     }
 
     post {

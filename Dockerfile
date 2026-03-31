@@ -12,7 +12,7 @@ RUN mvn -B -q -e -DskipTests dependency:go-offline
 
 # 5. СОЗДАЕМ ТАРГЕТ И ДАЕМ ПРАВА
 # Это гарантирует, что любой пользователь внутри контейнера сможет писать отчеты
-RUN mkdir -p /app/target && chmod -R 777 /app/target
+RUN mkdir -p /app/target/allure-results && chmod -R 777 /app/target
 
 # 6. Копируем исходный код
 COPY src ./src
