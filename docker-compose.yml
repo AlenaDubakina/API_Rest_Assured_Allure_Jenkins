@@ -36,6 +36,7 @@ services:
     image: my-rest-assured-tests
     working_dir: /app
     volumes:
+      - .:/app
       - ~/.m2:/root/.m2
       - ./target/allure-results:/app/target/allure-results
     networks:
