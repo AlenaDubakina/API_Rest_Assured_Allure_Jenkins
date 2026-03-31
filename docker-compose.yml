@@ -17,31 +17,6 @@ services:
     networks:
       - qa_network
 
-  allure:
-    image: frankescobar/allure-docker-service
-    container_name: allure
-    ports:
-      - "5050:5050"
-    environment:
-      - CHECK_RESULTS_EVERY_SECONDS=1
-      - KEEP_HISTORY=1
-    volumes:
-      - ./target/allure-results:/app/allure-results
-    networks:
-      - qa_network
-
-  # Сервис для запуска тестов
-  api-tests:
-    build: .
-    image: my-rest-assured-tests
-    working_dir: /app
-    volumes:
-      - ~/.m2:/root/.m2
-      - ./target/allure-results:/app/target/allure-results
-    networks:
-      - qa_network
-    profiles: ["test"]            # Не запускается автоматически
-
 volumes:
   jenkins_home:
 

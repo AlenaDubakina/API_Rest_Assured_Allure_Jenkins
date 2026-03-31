@@ -1,12 +1,14 @@
 FROM jenkins/jenkins:lts-jdk17
+
 USER root
 
-# Устанавливаем docker-compose
-RUN apt-get update && apt-get install -y docker-compose
+# Установка Docker
+RUN apt-get update && \
+    apt-get install -y docker.io docker-compose && \
+    apt-get clean
 
-# Создаем группу docker (если нет) и добавляем jenkins в docker и root
+# Даем доступ Jenkins к Docker
 RUN groupadd -f docker && \
-    usermod -aG docker jenkins && \
-    usermod -aG root jenkins
+    usermod -aG docker jenkins
 
 USER jenkins

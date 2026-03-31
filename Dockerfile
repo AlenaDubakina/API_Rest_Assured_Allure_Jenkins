@@ -8,10 +8,10 @@ WORKDIR /app
 COPY pom.xml .
 
 # 4. Загружаем зависимости (кэшируется, если pom.xml не менялся)
-RUN mvn dependency:go-offline
+RUN mvn -B -q -e -DskipTests dependency:go-offline
 
 # 5. Копируем исходный код
 COPY src ./src
 
 # 6. Команда по умолчанию
-CMD ["mvn", "test"]
+CMD ["mvn", "clean", "test"]
