@@ -14,4 +14,4 @@ RUN mvn -B -q -e -DskipTests dependency:go-offline
 COPY src ./src
 
 # 6. Команда по умолчанию
-CMD ["mvn", "clean", "test"]
+CMD ["mvn", "test"]
