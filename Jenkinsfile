@@ -45,6 +45,7 @@ pipeline {
                 mkdir -p target/allure-results
 
                 docker run --rm \
+                -u $(id -u):$(id -g) \
                 -v $WORKSPACE/target/allure-results:/app/target/allure-results \
                 api-tests
                 '''
