@@ -7,13 +7,26 @@ services:
       dockerfile: Dockerfile.jenkins
     container_name: jenkins
     ports:
-      - "8080:8080"
+      - "8081:8080"
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=true
+    networks:
+      - qa_network
+
+  allure:
+    image: frankescobar/allure-docker-service
+    container_name: allure
+    ports:
+      - "5050:5050"
+    environment:
+      - CHECK_RESULTS_EVERY_SECONDS=1
+      - KEEP_HISTORY=1
+    volumes:
+      - ./target/allure-results:/app/allure-results
     networks:
       - qa_network
 
